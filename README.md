@@ -104,8 +104,10 @@ cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/ir
 kill -1 `cat /var/run/stunnel.pid`
 ```
 
-Crontab root:
+Crontab for root:
+```
 @daily certbot renew --apache -post-hook "/root/cert-renewed.sh" > /dev/null 2>&1
+```
 
 ## Link over SSL
 Append to stunnel.conf:
