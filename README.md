@@ -96,10 +96,17 @@ You should get:
 :irc.warszawa.pl 020 * :Please wait while we process your connection.
 ```
 
-## Renew certificates and reload stunnel (untested)
-/root/cert-renewed.sh
+## Renew certificates
+/etc/letsencrypt/renewal-hooks/pre/before-renewal.sh
+```
+!/bin/bash
+systemctl start apache2
+```
+
+/etc/letsencrypt/renewal-hooks/post/after-renewal.sh
 ```
 #!/bin/bash
+systemctl stop apache2
 cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 kill -1 `cat /var/run/stunnel.pid`
 ```
