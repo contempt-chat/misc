@@ -113,7 +113,7 @@ kill -1 `cat /var/run/stunnel.pid`
 
 Crontab for root:
 ```
-@daily certbot renew --apache -post-hook "/root/cert-renewed.sh" > /dev/null 2>&1
+@daily certbot renew --apache > /dev/null 2>&1
 ```
 
 ## Link over SSL
