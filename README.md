@@ -10,7 +10,7 @@ stunnel listens on:
 .. and tunnels traffic to the local ports above
 
 
-Upgrade your ircd to 2.11.3p3+ircnet2-1.0.8. or higher.
+Upgrade your ircd to 2.11.3p3+ircnet2-1.0.8 or higher.
 
 conf.P-Lines or ircd.conf
 ```
@@ -21,7 +21,7 @@ P|::1|||6679||DT|
 P|::1|||6697||DT|
 ```
 
-Run these commands after startup
+Run these commands now and after reboot:
 ```
 ip rule add from 127.0.0.1/8 iif lo table 123
 ip route add local 0.0.0.0/0 dev lo table 123
@@ -29,7 +29,10 @@ ip -6 rule add from ::1/128 iif lo table 123
 ip -6 route add local ::/0 dev lo table 123
 ```
 
+Install and configure stunnel:
+```
 apt-get install stunnel4
+```
 
 /etc/stunnel/stunnel.conf
 ```
@@ -81,7 +84,7 @@ You should get:
 :irc.warszawa.pl 020 * :Please wait while we process your connection.
 ```
 
-Link over SSL
+## Link over SSL
 Append to stunnel.conf:
 ```
 [hub_contempt_chat]
