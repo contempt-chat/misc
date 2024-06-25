@@ -111,6 +111,10 @@ cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/ir
 kill -1 `cat /var/run/stunnel.pid`
 ```
 
+```
+chmod +x /etc/letsencrypt/renewal-hooks/pre/before-renewal.sh /etc/letsencrypt/renewal-hooks/post/after-renewal.sh
+```
+
 Crontab for root:
 ```
 @daily certbot renew --apache > /dev/null 2>&1
