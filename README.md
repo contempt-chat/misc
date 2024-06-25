@@ -9,16 +9,17 @@ stunnel listens on:
 * <your-external-ipv6> 6679 and 6697
 .. and tunnels traffic to the local ports above
 
+In this example IPv4 is `45.141.0.18` and IPv6 is `2001:470:60a1::1`.
 
 Upgrade your ircd to 2.11.3p3+ircnet2-1.0.8 or higher.
 
 conf.P-Lines or ircd.conf
 ```
 # SSL
-P|127.0.0.1|||6679||DT|
-P|127.0.0.1|||6697||DT|
-P|::1|||6679||DT|
-P|::1|||6697||DT|
+P|127.0.0.1|||6679||T|::ffff:45.141.0.18|
+P|127.0.0.1|||6697||T|::ffff:45.141.0.18|
+P|::1|||6679||T|2001:470:60a1::1|
+P|::1|||6697||T|2001:470:60a1::1|
 ```
 
 Run these commands now and after reboot:
@@ -27,6 +28,11 @@ ip rule add from 127.0.0.1/8 iif lo table 123
 ip route add local 0.0.0.0/0 dev lo table 123
 ip -6 rule add from ::1/128 iif lo table 123
 ip -6 route add local ::/0 dev lo table 123
+```
+
+Create bundle.pl
+```
+cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem 
 ```
 
 Install and configure stunnel:
@@ -44,28 +50,34 @@ socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
 
 [ircd_6679]
-accept  = 188.165.173.111:6679
+accept  = 45.141.0.18:6679
 connect = 127.0.0.1:6679
-cert = /etc/letsencrypt/live/nova.irc.it/bundle.pem
+cert = /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 transparent = source
 
 [ircd_6697]
-accept  = 188.165.173.111:6697
+accept  = 45.141.0.18:6697
 connect = 127.0.0.1:6697
-cert = /etc/letsencrypt/live/nova.irc.it/bundle.pem
+cert = /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 transparent = source
 
 [ircd_6679_ipv6]
-accept = 2001:41d0:404:200::aa8:6679
+accept = 2001:470:60a1::1:6679
 connect = ::1:6679
-cert = /etc/letsencrypt/live/nova.irc.it/bundle.pem
+cert = /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 transparent = source
 
 [ircd_6697_ipv6]
-accept = 2001:41d0:404:200::aa8:6697
+accept = 2001:470:60a1::1:6697
 connect = ::1:6697
-cert = /etc/letsencrypt/live/nova.irc.it/bundle.pem
+cert = /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 transparent = source
+
+[hub_contempt_chat]
+client = yes
+accept = 127.0.0.1:6699
+connect = 54.38.219.98:6697
+local = 45.141.0.18
 ```
 
 ```
@@ -83,6 +95,17 @@ You should get:
 ```
 :irc.warszawa.pl 020 * :Please wait while we process your connection.
 ```
+
+## Renew certificates and reload stunnel (untested)
+/root/cert-renewed.sh
+```
+#!/bin/bash
+cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
+kill -1 `cat /var/run/stunnel.pid`
+```
+
+Crontab root:
+@daily certbot renew --apache -post-hook "/root/cert-renewed.sh" > /dev/null 2>&1
 
 ## Link over SSL
 Append to stunnel.conf:
