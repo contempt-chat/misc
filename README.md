@@ -11,6 +11,8 @@ stunnel listens on:
 
 In this example IPv4 is `45.141.0.18` and IPv6 is `2001:470:60a1::1`.
 
+We will use apache to request and renewal the certificate. After the initial setup you can stop apache. It will be restarted automatically during the renewal process (see below).
+
 Upgrade your ircd to 2.11.3p3+ircnet2-1.0.8 or higher.
 
 ```
