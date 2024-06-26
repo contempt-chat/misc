@@ -13,6 +13,31 @@ In this example IPv4 is `45.141.0.18` and IPv6 is `2001:470:60a1::1`.
 
 Upgrade your ircd to 2.11.3p3+ircnet2-1.0.8 or higher.
 
+```
+apt-get install certbot python3-certbot-apache apache2
+mkdir /var/www/irc.warszawa.pl
+```
+
+Append to /etc/apache2/apache2.conf
+```
+<VirtualHost *:80>
+  ServerName irc.warszawa.pl
+  DocumentRoot /var/www/irc.warszawa.pl
+</VirtualHost>
+```
+
+```
+apachectl reload
+certbot --apache
+```
+
+Now there should be a valid certificate at /etc/letsencrypt/live/irc.warszawa.pl/
+
+Create bundle.pem
+```
+cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem 
+```
+
 conf.P-Lines or ircd.conf
 ```
 # SSL
@@ -30,10 +55,7 @@ ip -6 rule add from ::1/128 iif lo table 123
 ip -6 route add local ::/0 dev lo table 123
 ```
 
-Create bundle.pl
-```
-cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem 
-```
+
 
 Install and configure stunnel:
 ```
