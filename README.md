@@ -43,7 +43,7 @@ apt-get install stunnel4
 /etc/stunnel/stunnel.conf
 ```
 pid = /var/run/stunnel.pid
-output = /var/log/stunnel.log
+output = /var/log/stunnel4/stunnel.log
 foreground = no
 fips = no
 socket = l:TCP_NODELAY=1
