@@ -31,6 +31,11 @@ apachectl reload
 certbot --apache
 ```
 
+Request a certificate for irc.warszawa.pl
+```
+certbot --apache
+```
+
 Now there should be a valid certificate at /etc/letsencrypt/live/irc.warszawa.pl/
 
 Create bundle.pem
@@ -122,6 +127,7 @@ systemctl start apache2
 /etc/letsencrypt/renewal-hooks/post/after-renewal.sh
 ```
 #!/bin/bash
+# If you started apache only for certificate renewal, you can stop it now.
 systemctl stop apache2
 cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 kill -1 `cat /var/run/stunnel.pid`
