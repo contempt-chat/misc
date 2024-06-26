@@ -72,12 +72,6 @@ accept = 2001:470:60a1::1:6697
 connect = ::1:6697
 cert = /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 transparent = source
-
-[hub_contempt_chat]
-client = yes
-accept = 127.0.0.1:6699
-connect = 54.38.219.98:6697
-local = 45.141.0.18
 ```
 
 ```
@@ -125,7 +119,7 @@ Append to stunnel.conf:
 ```
 [hub_contempt_chat]
 client = yes
-accept = 127.0.0.1:6699
+accept = 127.0.0.1:6696
 connect = 54.38.219.98:6697
 local = 188.165.173.111
 ```
@@ -133,13 +127,13 @@ local = 188.165.173.111
 Restart stunnel
 Test connection:
 ```
-$ nc 127.0.0.1 6699
+$ nc 127.0.0.1 6696
 :hub.contempt.chat 020 * :Please wait while we process your connection.
 ```
 
-Change C/N Lines to connect to 127.0.0.1 6699
+Change C/N Lines to connect to 127.0.0.1 6696
 ```
-c|127.0.0.1|vqGdAq5gVwDQjV54|hub.contempt.chat|6699|1000||
+c|127.0.0.1|vqGdAq5gVwDQjV54|hub.contempt.chat|6696|1000||
 N|127.0.0.1|I3BNh2LXroVs22WZ|hub.contempt.chat||1000|
 
 ```
