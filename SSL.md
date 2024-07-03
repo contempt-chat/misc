@@ -122,7 +122,7 @@ You should get:
 ## Renew certificates
 /etc/letsencrypt/renewal-hooks/pre/before-renewal.sh
 ```
-!/bin/bash
+#!/bin/bash
 systemctl start apache2
 ```
 
