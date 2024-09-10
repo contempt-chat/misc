@@ -150,8 +150,8 @@ Append to stunnel.conf:
 [hub_contempt_chat]
 client = yes
 accept = 127.0.0.1:6696
-connect = 54.38.219.98:6697
-local = 188.165.173.111
+connect = <hub-ip>:6697
+local = 45.141.0.18
 ```
 
 Restart stunnel
