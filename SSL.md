@@ -48,10 +48,10 @@ cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/ir
 conf.P-Lines or ircd.conf
 ```
 # SSL
-P|127.0.0.1|||6679||DT|::ffff:45.141.0.18|
-P|127.0.0.1|||6697||DT|::ffff:45.141.0.18|
-P|::1|||6679||DT|2001:470:60a1::1|
-P|::1|||6697||DT|2001:470:60a1::1|
+P|127.0.0.1|||6679||T|::ffff:45.141.0.18|
+P|127.0.0.1|||6697||T|::ffff:45.141.0.18|
+P|::1|||6679||T|2001:470:60a1::1|
+P|::1|||6697||T|2001:470:60a1::1|
 ```
 
 Run these commands now and after reboot:
@@ -163,7 +163,7 @@ $ nc 127.0.0.1 6696
 
 Change C/N Lines to connect to 127.0.0.1 6696
 ```
-c|127.0.0.1|vqGdAq5gVwDQjV54|hub.contempt.chat|6696|1000||
-N|127.0.0.1|I3BNh2LXroVs22WZ|hub.contempt.chat||1000|
+c|127.0.0.1|xxxxxxxxxxx|hub.contempt.chat|6696|1000||
+N|127.0.0.1|xxxxxxxxxxx|hub.contempt.chat||1000|
 
 ```
