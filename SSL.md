@@ -55,14 +55,18 @@ P|::1|||6697||T|2001:470:60a1::1|
 ```
 
 Run these commands now and after reboot:
+/etc/network/if-up.d/stunnel
 ```
+#!/bin/bash
+[ "$IFACE" = "lo" ] || exit 0
 ip rule add from 127.0.0.1/8 iif lo table 123
 ip route add local 0.0.0.0/0 dev lo table 123
 ip -6 rule add from ::1/128 iif lo table 123
 ip -6 route add local ::/0 dev lo table 123
 ```
-
-
+```
+chmod +x /etc/network/if-up.d/stunnel
+```
 
 Install and configure stunnel:
 ```
