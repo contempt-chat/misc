@@ -54,7 +54,6 @@ P|::1|||6679||T|2001:470:60a1::1|
 P|::1|||6697||T|2001:470:60a1::1|
 ```
 
-Run these commands now and after reboot:
 /etc/network/if-up.d/stunnel
 ```
 #!/bin/bash
@@ -66,6 +65,7 @@ ip -6 route add local ::/0 dev lo table 123
 ```
 ```
 chmod +x /etc/network/if-up.d/stunnel
+ifup -v -f lo
 ```
 
 Install and configure stunnel:
