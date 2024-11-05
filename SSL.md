@@ -13,7 +13,7 @@ In this example IPv4 is `45.141.0.18` and IPv6 is `2001:470:60a1::1`.
 
 We will use apache to request and renewal the certificate. After the initial setup you can stop apache. It will be restarted automatically during the renewal process (see below).
 
-Upgrade your ircd to 2.11.3p3+ircnet2-1.0.8 or higher.
+Upgrade your ircd to 2.11.3 or higher.
 
 ```
 apt-get install certbot python3-certbot-apache apache2
@@ -48,8 +48,8 @@ cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/ir
 conf.P-Lines or ircd.conf
 ```
 # SSL
-P|127.0.0.1|||6679||T|::ffff:45.141.0.18|
-P|127.0.0.1|||6697||T|::ffff:45.141.0.18|
+P|127.0.0.1|||6679||T|45.141.0.18|
+P|127.0.0.1|||6697||T|45.141.0.18|
 P|::1|||6679||T|2001:470:60a1::1|
 P|::1|||6697||T|2001:470:60a1::1|
 ```
