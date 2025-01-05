@@ -136,6 +136,7 @@ systemctl start apache2
 # If you started apache only for certificate renewal, you can stop it now.
 systemctl stop apache2
 cat /etc/letsencrypt/live/irc.warszawa.pl/fullchain.pem /etc/letsencrypt/live/irc.warszawa.pl/privkey.pem > /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
+chmod 600 /etc/letsencrypt/live/irc.warszawa.pl/bundle.pem
 kill -1 `cat /var/run/stunnel.pid`
 ```
 
