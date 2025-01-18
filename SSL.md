@@ -192,7 +192,7 @@ And it to crontab:
 ## Self-signed certificates
 If the IP address of the server is not public, you can also use a self-signed certificate instead:
 ```
-openssl req -new -x509 -days 10950 -nodes -out stunnel.pem -keyout ircd.pem
+openssl req -new -x509 -days 10950 -nodes -out ircd.pem -keyout ircd.pem
 ```
 and it it your stunnel.conf
 ```
