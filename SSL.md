@@ -175,6 +175,8 @@ N|127.0.0.1|xxxxxxxxxxx|hub.contempt.chat||1000|
 
 ## Start stunnel automatically
 The default systemd script did not start stunnel properly after reboot. This script checks every 5 minutes if stunnel is running:
+
+/root/cronjob_start_stunnel4.sh
 ```
 #!/bin/bash
 ps -p `cat /var/run/stunnel.pid`
@@ -182,6 +184,11 @@ if [ $? = 1 ]
   then /usr/bin/stunnel4 /etc/stunnel/stunnel.conf
 fi
 ```
+
+```
+chmod +x /root/cronjob_start_stunnel4.sh
+```
+
 Please check if the path of the PID file and of the stunnel binary are correct.
 And it to crontab:
 
