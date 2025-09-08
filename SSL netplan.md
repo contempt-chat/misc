@@ -1,26 +1,14 @@
-# networkd-dispatcher
-```
-apt-get install networkd-dispatcher
-```
+# Introduction
 
-/etc/networkd-dispatcher/routable.d/50-stunnel-rules
+We recently experienced disconnects due to missing routing rules required by stunnel.
 
-```
-#!/bin/bash
-ip rule add from 127.0.0.1/8 iif lo table 123 2>/dev/null || true
-ip route add local 0.0.0.0/0 dev lo table 123
-ip -6 rule add from ::1/128 iif lo table 123 2>/dev/null || true
-ip -6 route add local ::/0 dev lo table 123
-```
-
-```
-chmod +x /etc/networkd-dispatcher/routable.d/50-stunnel-rules
-ln -s ../routable.d/50-stunnel-rules /etc/networkd-dispatcher/carrier.d/50-stunnel-rules
-ln -s ../routable.d/50-stunnel-rules /etc/networkd-dispatcher/degraded.d/50-stunnel-rules
-systemctl restart networkd-dispatcher
-systemctl enable networkd-dispatcher.service
-systemctl start networkd-dispatcher.service
-```
+The root cause was that our custom ip rule and ip route entries were lost whenever systemd-networkd reconfigured the interfaces. This can happen during normal events such as:
+* **interface state changes (e.g. DHCP renewal, link flap)**
+* running `netplan apply`
+* `systemctl restart systemd-networkd`
+* a system reboot
+  
+Because Netplan dynamically generates `.network` files under `/run/systemd/network/` and `systemd-networkd reloads them, any rules added manually with `ip ..` would disappear after such reconfigurations.
 
 # systemd-networkd
 `systemd-networkd` natively supports both policy routing rules and Type=local routes.
@@ -148,4 +136,28 @@ ip rule show | grep 123
 ip -6 rule show | grep 123
 ip route show table 123
 ip -6 route show table 123
+```
+
+# networkd-dispatcher
+```
+apt-get install networkd-dispatcher
+```
+
+/etc/networkd-dispatcher/routable.d/50-stunnel-rules
+
+```
+#!/bin/bash
+ip rule add from 127.0.0.1/8 iif lo table 123 2>/dev/null || true
+ip route add local 0.0.0.0/0 dev lo table 123
+ip -6 rule add from ::1/128 iif lo table 123 2>/dev/null || true
+ip -6 route add local ::/0 dev lo table 123
+```
+
+```
+chmod +x /etc/networkd-dispatcher/routable.d/50-stunnel-rules
+ln -s ../routable.d/50-stunnel-rules /etc/networkd-dispatcher/carrier.d/50-stunnel-rules
+ln -s ../routable.d/50-stunnel-rules /etc/networkd-dispatcher/degraded.d/50-stunnel-rules
+systemctl restart networkd-dispatcher
+systemctl enable networkd-dispatcher.service
+systemctl start networkd-dispatcher.service
 ```
