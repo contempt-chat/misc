@@ -79,14 +79,14 @@ systemd timer that runs every minute and re-applies routing rules/local routes i
 ```
 #!/bin/bash
 set -euo pipefail
-IP=/usr/sbin/ip   # absolute path because systemd may not include /usr/sbin in PATH
+IP=/usr/sbin/ip
 
 # Add rules; ignore errors if they already exist
-$IP  rule add pref 1000 from 127.0.0.0/8 iif lo table 123 2>/dev/null || true
-$IP -6 rule add pref 1000 from ::1/128      iif lo table 123 2>/dev/null || true
+$IP rule add from 127.0.0.0/8 iif lo table 123 2>/dev/null || true
+$IP -6 rule add from ::1/128      iif lo table 123 2>/dev/null || true
 
 # Add local routes; ignore errors if they already exist
-$IP  route add local 0.0.0.0/0 dev lo table 123 2>/dev/null || true
+$IP route add local 0.0.0.0/0 dev lo table 123 2>/dev/null || true
 $IP -6 route add local ::/0      dev lo table 123 2>/dev/null || true
 ```
 
