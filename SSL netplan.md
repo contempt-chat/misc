@@ -1,6 +1,4 @@
 # networkd-dispatcher
-In this example the interface is `ens3`.
-
 ```
 apt-get install networkd-dispatcher
 ```
