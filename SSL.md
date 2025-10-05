@@ -30,7 +30,6 @@ Append to /etc/apache2/apache2.conf
 
 ```
 apachectl reload
-certbot --apache
 ```
 
 Request a certificate for irc.warszawa.pl
