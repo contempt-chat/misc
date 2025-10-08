@@ -204,3 +204,7 @@ and it it your stunnel.conf
 ```
 cert = /etc/stunnel/ircd.pem
 ```
+
+## Known issues
+The ip rules and routes get lost on network reconfiguration:
+https://github.com/contempt-chat/misc/blob/main/SSL%20netplan.md
