@@ -139,10 +139,6 @@ ip -6 route show table 123
 ```
 
 # networkd-dispatcher
-```
-apt-get install networkd-dispatcher
-```
-
 /etc/networkd-dispatcher/routable.d/50-stunnel-rules
 
 ```
