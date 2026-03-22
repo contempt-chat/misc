@@ -148,6 +148,11 @@ Crontab for root:
 @daily certbot renew --apache > /dev/null 2>&1
 ```
 
+Do not start Apache automatically at boot:
+```
+systemctl disable --now apache2
+```
+
 ## Link over SSL
 Append to stunnel.conf:
 ```
