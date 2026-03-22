@@ -29,7 +29,7 @@ Append to /etc/apache2/apache2.conf
 ```
 
 ```
-apachectl reload
+apachectl restart
 ```
 
 Request a certificate for irc.warszawa.pl
