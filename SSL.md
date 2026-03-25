@@ -73,11 +73,11 @@ Install and configure stunnel:
 apt-get install stunnel4
 ```
 
-/etc/stunnel/stunnel.conf
+/etc/stunnel/ircd.conf
 ```
 pid = /var/run/stunnel.pid
 output = /var/log/stunnel4/stunnel.log
-foreground = no
+foreground = yes
 fips = no
 socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
@@ -108,8 +108,24 @@ transparent = source
 ```
 
 ```
-systemctl start stunnel4.service
+systemctl edit stunnel@ircd
 ```
+
+Add:
+
+```
+[Unit]
+Wants=network-online.target
+After=network-online.target
+```
+
+```
+systemctl daemon-reload
+systemctl enable --now stunnel@ircd
+```
+
+
+
 
 Test each port
 ```
@@ -177,21 +193,6 @@ N|127.0.0.1|xxxxxxxxxxx|hub.contempt.chat||1000|
 
 ```
 
-## Start stunnel automatically
-The default systemd script did not start stunnel properly after reboot. This script checks every 5 minutes if stunnel is running:
-
-/root/cronjob_start_stunnel4.sh
-```
-#!/bin/bash
-ps -p `cat /var/run/stunnel.pid`
-if [ $? = 1 ]
-  then /usr/bin/stunnel4 /etc/stunnel/stunnel.conf
-fi
-```
-
-```
-chmod +x /root/cronjob_start_stunnel4.sh
-```
 
 Please check if the path of the PID file and of the stunnel binary are correct.
 And it to crontab:
